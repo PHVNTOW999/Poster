@@ -12,7 +12,7 @@ model User {
   email     String   @unique
   username  String
   password  String
-  avatar    String   @default("img url soon")
+  avatar    String?  @default("img url soon")
   userPosts Post[]
   createdAt DateTime @default(now())
 }
