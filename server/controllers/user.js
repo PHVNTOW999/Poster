@@ -2,6 +2,7 @@ const {prisma} = require("../prisma/prisma-client");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {returnError, returnJSON} = require("../utils/messenger");
+const {uploader} = require("../utils/uploader");
 const JWT_SECRET = process.env.JWT_SECRET
 
 const login = async (req, res) => {
@@ -44,7 +45,7 @@ const login = async (req, res) => {
 };
 const register = async (req, res) => {
     try {
-        const {email, password, username} = req.body;
+        const {email, password, username, avatar} = req.body;
 
         // check required fields
         if (!email || !password || !username) {
@@ -79,6 +80,7 @@ const register = async (req, res) => {
         if (user && JWT_SECRET) {
             return await returnJSON(req, res, {
                 uuid: user['uuid'],
+                avatar: user['avatar'],
                 email: user['email'],
                 username: user['username'],
                 token: jwt.sign(
