@@ -8,10 +8,12 @@ datasource db {
 }
 
 model User {
-  uuid         String    @id @default(uuid()) @unique
+  // required fields
   email        String    @unique
   username     String
   password     String
+  // autofill
+  uuid         String    @id @default(uuid()) @unique
   userPosts    Post[]
   userLikes    Like[]
   userComments Comment[]
@@ -19,30 +21,35 @@ model User {
 }
 
 model Post {
+  // required fields
+  text         String
+  // autofill
   uuid         String    @id @default(uuid())
   author       User      @relation(fields: [authorUUID], references: [uuid])
   authorUUID   String
-  text         String
   postLikes    Like[]
   postComments Comment[]
   createdAt    DateTime  @default(now())
 }
 
 model Like {
+  // autofill
   uuid      String   @id @default(uuid())
   post      Post     @relation(fields: [postUUID], references: [uuid])
-  postUUID  String
-  user      User     @relation(fields: [userUUID], references: [uuid])
+  postUUID  String   @unique
+  user      User   @relation(fields: [userUUID], references: [uuid])
   userUUID  String
   createdAt DateTime @default(now())
 }
 
 model Comment {
+  // required fields
+  text      String
+  // autofill
   uuid      String   @id @default(uuid())
   post      Post     @relation(fields: [postUUID], references: [uuid])
-  postUUID  String
+  postUUID  String   @unique
   user      User     @relation(fields: [userUUID], references: [uuid])
   userUUID  String
-  text      String
   createdAt DateTime @default(now())
 }
