@@ -16,7 +16,7 @@ app.use(cookieParser());
 app.use('/api/', require('./routes/index'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/post', require('./routes/post'));
-app.use('/api/like', require('./routes/like'));
 app.use('/api/comment', require('./routes/comment'));
+app.use('/api/like', require('./routes/like'));
 
 module.exports = app;

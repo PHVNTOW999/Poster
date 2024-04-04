@@ -23,7 +23,7 @@ const allByUUID = async (req, res) => {
     try {
         const comments = await prisma.comment.findMany({
             where: {
-                userUUID: req.params.uuid
+                authorUUID: req.params.uuid
             },
             orderBy: {
                 createdAt: 'desc',

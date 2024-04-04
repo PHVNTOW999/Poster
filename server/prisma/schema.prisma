@@ -37,19 +37,19 @@ model Like {
   uuid      String   @id @default(uuid())
   post      Post     @relation(fields: [postUUID], references: [uuid])
   postUUID  String   @unique
-  user      User   @relation(fields: [userUUID], references: [uuid])
+  user      User     @relation(fields: [userUUID], references: [uuid])
   userUUID  String
   createdAt DateTime @default(now())
 }
 
 model Comment {
   // required fields
-  text      String
+  text       String
   // autofill
-  uuid      String   @id @default(uuid())
-  post      Post     @relation(fields: [postUUID], references: [uuid])
-  postUUID  String   @unique
-  user      User     @relation(fields: [userUUID], references: [uuid])
-  userUUID  String
-  createdAt DateTime @default(now())
+  uuid       String   @id @default(uuid())
+  post       Post     @relation(fields: [postUUID], references: [uuid])
+  postUUID   String
+  author     User     @relation(fields: [authorUUID], references: [uuid])
+  authorUUID String
+  createdAt  DateTime @default(now())
 }

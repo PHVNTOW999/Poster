@@ -26,6 +26,10 @@ const create = async (req, res) => {
 const all = async (req, res) => {
     try {
         const posts = await prisma.post.findMany({
+            include: {
+                postLikes: true,
+                author: true,
+            },
             orderBy: {
                 createdAt: 'desc',
             }
@@ -40,14 +44,16 @@ const all = async (req, res) => {
 const popular = async (req, res) => {
     try {
         const posts = await prisma.post.findMany({
+            include: {
+                postLikes: true,
+                author: true,
+            },
             orderBy: {
                 postLikes: {
-                    _count: 'asc'
+                    _count: 'desc'
                 }
             }
         })
-
-        console.log("posts")
 
         return returnJSON(req, res, posts)
     } catch (error) {
