@@ -1,49 +1,24 @@
-import React, {useState} from "react";
-import {ConfigProvider, Layout, Switch, theme} from 'antd';
-
-// routes
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import {paths} from "./paths";
-import {home} from "./pages/home";
-import {login} from "./pages/auth/login";
-
-const {defaultAlgorithm, darkAlgorithm} = theme;
-const {Header, Footer, Content} = Layout;
-
-
-const router = createBrowserRouter([
-    {
-        path: paths.home,
-        element: home()
-    },
-    {
-        path: paths.login,
-        element: login()
-    },
-    {
-        path: paths.register,
-        element: <p>register</p>
-    },
-])
+import React from 'react';
+import {RouterProvider} from 'react-router-dom';
+import Layout, {Content, Footer, Header} from "antd/lib/layout/layout";
+import {HeaderMainComp} from "./components/header";
+import {routers} from "./routers";
+import {FooterMainComp} from "./components/footer";
 
 export const App = () => {
-    const [isLightTheme, setIsLightTheme] = useState(false);
-
-    const handleSwitch = () => {
-        setIsLightTheme((previousValue) => !previousValue);
-    };
-
     return (
-        <ConfigProvider theme={{algorithm: isLightTheme ? defaultAlgorithm : darkAlgorithm}}>
-            <Layout>
-                <Header>
-                    <Switch checkedChildren="Light" unCheckedChildren="Dark" onClick={handleSwitch}/>
-                </Header>
-                <Content>
-                    <RouterProvider router={router}/>
-                </Content>
-                <Footer>Footer</Footer>
-            </Layout>
-        </ConfigProvider>
+        <div className='App'>
+                <Layout>
+                    <Header>
+                        <HeaderMainComp/>
+                    </Header>
+                    <Content>
+                        <RouterProvider router={routers}/>
+                    </Content>
+                    <Footer style={{display: "inline-grid"}}>
+                        <FooterMainComp />
+                    </Footer>
+                </Layout>
+        </div>
     );
 };
