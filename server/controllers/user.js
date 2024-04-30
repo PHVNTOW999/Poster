@@ -36,7 +36,7 @@ const login = async (req, res) => {
                     null)
             })
         } else {
-            return returnError(req, res, 'Wrong index or password')
+            return returnError(req, res, 'Wrong email or password')
         }
     } catch (error) {
         return returnError(req, res, error)

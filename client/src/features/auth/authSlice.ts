@@ -1,11 +1,12 @@
 // @ts-ignore
-import {User} from '@prisma/client';
+import {User} from "@prisma/client";
 import {createSlice} from "@reduxjs/toolkit";
-import {authApi} from "./services/auth";
+import {authApi} from "../../app/services/auth";
 import exp from "constants";
-import {RootState} from "./store";
+import {RootState} from "../../app/store";
+
 interface InitialState {
-    user: User & {token: string} | null,
+    user: User & { token: string } | null,
     isAuthenticated: boolean,
 }
 

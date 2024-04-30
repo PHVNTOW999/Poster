@@ -8,10 +8,6 @@ export const paths = [
         name: 'Home',
         path: '/home',
     },
-    {
-        name: 'Login',
-        path: '/login',
-    },
 ]
 
 export const router = createBrowserRouter([

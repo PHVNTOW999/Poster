@@ -5,6 +5,8 @@ import './index.css';
 import {App} from "./App";
 import {store} from "./app/store";
 import {Provider} from "react-redux";
+import {ConfigProvider, theme} from "antd";
+import {Auth} from "./features/auth/auth";
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -12,7 +14,11 @@ const root = createRoot(container);
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App/>
+            <ConfigProvider theme={{algorithm: theme.darkAlgorithm}}>
+                <Auth>
+                    <App/>
+                </Auth>
+            </ConfigProvider>
         </Provider>
     </React.StrictMode>
 );

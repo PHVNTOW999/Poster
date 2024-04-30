@@ -7,9 +7,6 @@ export const Root = () => {
         <div className='layout'>
             <Header/>
             <div className="main">
-                <h1>
-                    Hello world!
-                </h1>
                 <Outlet/>
             </div>
         </div>
