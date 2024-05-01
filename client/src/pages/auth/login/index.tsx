@@ -1,15 +1,14 @@
-import {Button, Card, Form, Input, message, Row, Space, Spin, Typography} from "antd";
+import {Button, Card, Form, Input, Row, Space, Spin, Typography} from "antd";
 import React, {useState} from "react";
 import {useLoginMutation, UserData} from "../../../app/services/auth";
 import {ErrorHandler} from "../../../utils/ErrorHandler";
 import {Link, useNavigate} from "react-router-dom";
 import {Error} from "../../../components/error";
-import {Messenger} from "../../../utils/messenger";
 
 export const Login = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [loginUser, loginResult] = useLoginMutation();
+    const [loginUser] = useLoginMutation();
     const [error, setError] = useState('');
     const login = async (data: UserData) => {
         try {
@@ -51,6 +50,7 @@ export const Login = () => {
                             >
                                 <Input placeholder="Email"/>
                             </Form.Item>
+
                             <Form.Item
                                 name="password"
                                 rules={[
