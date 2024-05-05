@@ -19,7 +19,6 @@ export const Login = () => {
             const maybeError = ErrorHandler(error);
 
             if (maybeError) {
-                console.log(error.data.message)
                 setError(error.data.message);
             } else {
                 setError("Unknown error");

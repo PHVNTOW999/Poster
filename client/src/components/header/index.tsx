@@ -16,8 +16,8 @@ export const Header = () => {
         navigate('/');
     }
     return (
-        <header className='header w-full p-4 flow-root'>
-            <nav className='nav float-left w-20 flex justify-between'>
+        <header className='header w-full p-4 pl-10 pr-10 flow-root'>
+            <nav className='nav float-left w-28 flex justify-between'>
                 {
                     paths.map((link, i) => {
                         return (
@@ -32,7 +32,7 @@ export const Header = () => {
                 {
                     auth.isAuthenticated ? (
                         <div className='User'>
-                            {auth.user.username}
+                            {/*<Link to={'user/' + auth.user.uuid}>{auth.user.username}</Link>*/}
                             <Button type='primary' size='small' onClick={Logout}>
                                 Logout
                             </Button>

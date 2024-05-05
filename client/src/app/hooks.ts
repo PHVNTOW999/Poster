@@ -1,43 +1,6 @@
-// @ts-ignore
-import {User} from '@prisma/client';
-import {createSlice} from "@reduxjs/toolkit";
-import {authApi} from "./services/auth";
-import exp from "constants";
-import {RootState} from "./store";
-interface InitialState {
-    user: User & {token: string} | null,
-    isAuthenticated: boolean,
-}
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from './store';
 
-const initialState: InitialState = {
-    user: null,
-    isAuthenticated: false,
-}
-
-const slice = createSlice({
-    name: 'Auth',
-    initialState,
-    reducers: {
-        logout: () => initialState,
-    },
-    extraReducers: (builder) => {
-        builder
-            .addMatcher(authApi.endpoints.login.matchFulfilled, (state, action) => {
-                state.user = action.payload;
-                state.isAuthenticated = true;
-            })
-            .addMatcher(authApi.endpoints.register.matchFulfilled, (state, action) => {
-                state.user = action.payload;
-                state.isAuthenticated = true;
-            })
-            .addMatcher(authApi.endpoints.current.matchFulfilled, (state, action) => {
-                state.user = action.payload;
-                state.isAuthenticated = true;
-            })
-    }
-})
-
-export const {logout} = slice.actions;
-export default slice.reducer;
-export const selectIsisAuthenticated = (state: RootState) => state.auth.isAuthenticated;
-export const selectUser = (state: RootState) => state.auth.user;
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

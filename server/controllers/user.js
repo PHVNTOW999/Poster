@@ -96,6 +96,28 @@ const register = async (req, res) => {
     }
 }
 
+const user = async (req, res) => {
+    try {
+        const user = await prisma.user.findFirst({
+            where: {
+                uuid: req.params.uuid
+            },
+            select: {
+                uuid: true,
+                username: true,
+                createdAt: true,
+                userPosts: true,
+                userLikes: true,
+                userComments: true,
+            },
+        })
+
+        return returnJSON(req, res, user)
+    } catch (error) {
+        return returnError(req, res, error)
+    }
+}
+
 const current = async (req, res) => {
     return returnJSON(req, res, req.user)
 };
@@ -103,5 +125,6 @@ const current = async (req, res) => {
 module.exports = {
     login,
     register,
+    user,
     current,
 }
