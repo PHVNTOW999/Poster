@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useParams} from "react-router-dom";
 import {useUserQuery} from "../../app/services/auth";
 import {Skeleton} from "antd";

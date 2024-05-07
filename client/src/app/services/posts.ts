@@ -1,7 +1,7 @@
 // @ts-ignore
 import {Post} from "@prisma/client";
 import {api} from "./api"
-export const employeesApi = api.injectEndpoints({
+export const postsApi = api.injectEndpoints({
     endpoints: (builder) => ({
         // addEmployee: builder.mutation<Employee, Employee>({
         //     query: (employee) => ({
@@ -10,12 +10,12 @@ export const employeesApi = api.injectEndpoints({
         //         body: employee
         //     })
         // }),
-        // getAllEmployees: builder.query<Employee[], void>({
-        //     query: () => ({
-        //         url: '/employees',
-        //         method: 'GET'
-        //     })
-        // }),
+        getAllPosts: builder.query<Post[], void>({
+            query: () => ({
+                url: 'post/all',
+                method: 'GET'
+            })
+        }),
         getPost: builder.query<Post, string>({
             query: (uuid) => ({
                 url: `/post/${uuid}`,
@@ -40,18 +40,18 @@ export const employeesApi = api.injectEndpoints({
 
 export const {
     // useAddEmployeeMutation,
-    // useGetAllEmployeesQuery,
+    useGetAllPostsQuery,
     useGetPostQuery,
     // useEditEmployeeMutation,
     // useRemoveEmployeeMutation
-} = employeesApi;
+} = postsApi;
 
 export const {
     endpoints: {
         // addEmployee,
-        // getAllEmployees,
+        getAllPosts,
         getPost,
         // editEmployee,
         // removeEmployee
     }
-} = employeesApi;
+} = postsApi;

@@ -32,7 +32,7 @@ export const Header = () => {
                 {
                     auth.isAuthenticated ? (
                         <div className='User'>
-                            {/*<Link to={'user/' + auth.user.uuid}>{auth.user.username}</Link>*/}
+                            <Link to={'user/' + auth.user.uuid}>{auth.user.username}</Link>
                             <Button type='primary' size='small' onClick={Logout}>
                                 Logout
                             </Button>
