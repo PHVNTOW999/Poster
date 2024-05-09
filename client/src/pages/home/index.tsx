@@ -16,6 +16,7 @@ export const Home = () => {
                             {
                                 data.map((post, i) => {
                                     return <Post
+                                        uuid={post.uuid}
                                         author={post.author}
                                         text={post.text}
                                         likes={post.postLikes}

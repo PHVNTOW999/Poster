@@ -3,7 +3,7 @@ const express = require("express");
 const {auth} = require("../middleware/auth");
 const router = express.Router();
 
-// create post by post uuid
+// create likes by post uuid
 router.post('/:uuid', auth, create)
 // get all likes by user (uuid)
 router.get('/all/:uuid', auth, allByUUID)
