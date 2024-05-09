@@ -36,7 +36,7 @@ model Like {
   // autofill
   uuid      String   @id @default(uuid())
   post      Post     @relation(fields: [postUUID], references: [uuid])
-  postUUID  String   @unique
+  postUUID  String
   user      User     @relation(fields: [userUUID], references: [uuid])
   userUUID  String
   createdAt DateTime @default(now())

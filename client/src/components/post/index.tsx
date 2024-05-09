@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Card, Spin} from "antd";
 import {LikeOutlined, LikeFilled, CommentOutlined} from '@ant-design/icons';
 import moment from "moment";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {removeLike, useAddLikeMutation, useRemoveLikeMutation} from "../../app/services/like";
+import {useAddLikeMutation, useRemoveLikeMutation} from "../../app/services/like";
 import {ErrorHandler} from "../../utils/ErrorHandler";
 
 type Props = {
@@ -17,6 +17,7 @@ type Props = {
     likes?: Array<any>;
     comments?: Array<object>;
     createdAt: string;
+    refetch?: any;
 }
 
 const Post = ({
@@ -26,22 +27,22 @@ const Post = ({
                   likes,
                   comments,
                   createdAt,
+                  refetch,
               }: Props) => {
 
     const auth = useSelector((state: any) => state.auth);
-    const [isLiked, setIsLiked] = useState(false);
     const [addLike] = useAddLikeMutation()
     const [removeLike] = useRemoveLikeMutation()
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = useState('');
 
+    const isLiked = likes?.find(like => like.userUUID == auth.user.uuid);
     const like = async () => {
         try {
             setLoading(true)
             if (isLiked) {
-                await removeLike(uuid)
+                await removeLike(isLiked.uuid)
             } else {
-                console.log('ggs')
                 await addLike(uuid)
             }
         } catch (error) {
@@ -53,18 +54,11 @@ const Post = ({
                 setError("Unknown error");
             }
         } finally {
+            await refetch()
             setLoading(false)
         }
     }
 
-    useEffect(() => {
-        likes?.map((post) => {
-            if (post.userUUID == auth.user.uuid) {
-                return setIsLiked(true)
-            } else
-                return setIsLiked(false)
-        })
-    }, [])
     return (
         <div className='Post mb-10'>
             <Spin spinning={loading}>

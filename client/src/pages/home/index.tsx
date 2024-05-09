@@ -1,11 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Post from "../../components/post";
 import {useGetAllPostsQuery} from "../../app/services/posts";
 import {Spin} from "antd";
 
 export const Home = () => {
-    const {data, isLoading, isFetching} = useGetAllPostsQuery()
-
+    const {data, isLoading, isFetching, refetch} = useGetAllPostsQuery();
 
     return (
         <div className='Home'>
@@ -22,6 +21,7 @@ export const Home = () => {
                                         likes={post.postLikes}
                                         comments={post.postComments}
                                         createdAt={post.createdAt}
+                                        refetch={refetch}
                                         key={i}/>
                                 })
                             }

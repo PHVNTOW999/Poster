@@ -3,14 +3,25 @@ const {prisma} = require("../prisma/prisma-client");
 
 const create = async (req, res) => {
     try {
-        const like = await prisma.like.create({
-            data: {
+        const isLiked = await prisma.like.findFirst({
+            where: {
                 userUUID: req.user.uuid,
                 postUUID: req.params.uuid
             }
         })
 
-        return returnJSON(req, res, like)
+        if(!isLiked) {
+            const like = await prisma.like.create({
+                data: {
+                    userUUID: req.user.uuid,
+                    postUUID: req.params.uuid
+                }
+            })
+
+            return returnJSON(req, res, like)
+        } else {
+            return returnJSON(req, res, 'Error, that post was liked')
+        }
     } catch (error) {
         return returnError(req, res, error)
     }
@@ -37,7 +48,7 @@ const remove = async (req, res) => {
     try {
         const like = await prisma.like.delete({
             where: {
-                postUUID: req.params.uuid
+                uuid: req.params.uuid
             }
         })
 
