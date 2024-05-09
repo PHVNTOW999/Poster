@@ -18,7 +18,10 @@ export const Home = () => {
                                     return <Post
                                         author={post.author}
                                         text={post.text}
-                                        createdAt={post.createdAt}/>
+                                        likes={post.postLikes}
+                                        comments={post.postComments}
+                                        createdAt={post.createdAt}
+                                        key={i}/>
                                 })
                             }
                         </div>

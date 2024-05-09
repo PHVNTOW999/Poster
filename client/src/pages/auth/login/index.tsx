@@ -30,7 +30,7 @@ export const Login = () => {
     return (
         <div className='login p-14'>
             <Row align='middle' justify='center'>
-                <Card title='Login'  className='w-1/3'>
+                <Card title='Login' className='w-1/3'>
                     <Spin spinning={loading}>
                         <Form
                             onFinish={login}
