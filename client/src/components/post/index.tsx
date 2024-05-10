@@ -17,7 +17,6 @@ type Props = {
     likes?: Array<any>;
     comments?: Array<object>;
     createdAt: string;
-    refetch?: any;
 }
 
 const Post = ({
@@ -27,23 +26,30 @@ const Post = ({
                   likes,
                   comments,
                   createdAt,
-                  refetch,
               }: Props) => {
 
     const auth = useSelector((state: any) => state.auth);
-    const [addLike] = useAddLikeMutation()
-    const [removeLike] = useRemoveLikeMutation()
+
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = useState('');
 
-    const isLiked = likes?.find(like => like.userUUID == auth.user.uuid);
+    const [addLike] = useAddLikeMutation()
+    const [removeLike] = useRemoveLikeMutation()
+
+    const isLikedCheck = likes?.find(like => like.userUUID == auth.user.uuid);
+    const [isLiked, setIsLiked] = useState(isLikedCheck);
+    const [likesLength, setLikesLength] = useState(likes?.length || 0);
+
     const like = async () => {
         try {
             setLoading(true)
             if (isLiked) {
                 await removeLike(isLiked.uuid)
+                setLikesLength(likesLength - 1)
+                setIsLiked(undefined)
             } else {
-                await addLike(uuid)
+                await addLike(uuid).unwrap().then((like) => {setIsLiked(like)})
+                setLikesLength(likesLength + 1)
             }
         } catch (error) {
             const maybeError = ErrorHandler(error);
@@ -54,7 +60,6 @@ const Post = ({
                 setError("Unknown error");
             }
         } finally {
-            await refetch()
             setLoading(false)
         }
     }
@@ -76,7 +81,7 @@ const Post = ({
                                     <LikeOutlined key="edit" className='mr-2'/>
                                 )
                             }
-                            {likes?.length}
+                            {likesLength}
                         </div>,
                         <div>
                             <CommentOutlined key="edit"/>

@@ -4,7 +4,7 @@ import {useGetAllPostsQuery} from "../../app/services/posts";
 import {Spin} from "antd";
 
 export const Home = () => {
-    const {data, isLoading, isFetching, refetch} = useGetAllPostsQuery();
+    const {data, isLoading, isFetching} = useGetAllPostsQuery();
 
     return (
         <div className='Home'>
@@ -21,7 +21,6 @@ export const Home = () => {
                                         likes={post.postLikes}
                                         comments={post.postComments}
                                         createdAt={post.createdAt}
-                                        refetch={refetch}
                                         key={i}/>
                                 })
                             }
