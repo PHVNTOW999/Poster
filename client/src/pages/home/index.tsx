@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import Post from "../../components/post";
 import {useGetAllPostsQuery} from "../../app/services/posts";
 import {Spin} from "antd";
+import CustomForm from "../../components/form";
 
 export const Home = () => {
     const {data, isLoading, isFetching} = useGetAllPostsQuery();
@@ -9,6 +10,7 @@ export const Home = () => {
     return (
         <div className='Home'>
             <Spin spinning={isLoading}>
+                <CustomForm title='Create new post' />
                 {
                     !isFetching && data ? (
                         <div className='posts'>

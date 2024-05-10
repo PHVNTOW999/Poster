@@ -65,7 +65,7 @@ const Post = ({
     }
 
     return (
-        <div className='Post mb-10'>
+        <div className='Post mt-10'>
             <Spin spinning={loading}>
                 <Card
                     title={<Link to={'/user/' + author.uuid}>{author.username}</Link>}

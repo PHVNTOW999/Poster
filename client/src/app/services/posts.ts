@@ -3,13 +3,13 @@ import {Post} from "@prisma/client";
 import {api} from "./api"
 export const postsApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        // addEmployee: builder.mutation<Employee, Employee>({
-        //     query: (employee) => ({
-        //         url: `/employees/add`,
-        //         method: 'POST',
-        //         body: employee
-        //     })
-        // }),
+        addPost: builder.mutation<Post, Post>({
+            query: (data) => ({
+                url: `/post/create`,
+                method: 'POST',
+                body: data
+            })
+        }),
         getAllPosts: builder.query<Post[], void>({
             query: () => ({
                 url: 'post/all',
@@ -39,7 +39,7 @@ export const postsApi = api.injectEndpoints({
 })
 
 export const {
-    // useAddEmployeeMutation,
+    useAddPostMutation,
     useGetAllPostsQuery,
     useGetPostQuery,
     // useEditEmployeeMutation,
@@ -48,7 +48,7 @@ export const {
 
 export const {
     endpoints: {
-        // addEmployee,
+        addPost,
         getAllPosts,
         getPost,
         // editEmployee,
