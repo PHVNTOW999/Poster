@@ -29,12 +29,12 @@ export const postsApi = api.injectEndpoints({
         //         body: employee
         //     })
         // }),
-        // removeEmployee: builder.mutation<string, string>({
-        //     query: (id) => ({
-        //         url: `/employees/remove/${id}`,
-        //         method: 'POST'
-        //     })
-        // })
+        removePost: builder.mutation<string, string>({
+            query: (uuid) => ({
+                url: `/post/remove/${uuid}`,
+                method: 'POST'
+            })
+        })
     })
 })
 
@@ -43,7 +43,7 @@ export const {
     useGetAllPostsQuery,
     useGetPostQuery,
     // useEditEmployeeMutation,
-    // useRemoveEmployeeMutation
+    useRemovePostMutation
 } = postsApi;
 
 export const {
@@ -52,6 +52,6 @@ export const {
         getAllPosts,
         getPost,
         // editEmployee,
-        // removeEmployee
+        removePost
     }
 } = postsApi;

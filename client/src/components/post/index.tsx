@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Card, Spin} from "antd";
-import {LikeOutlined, LikeFilled, CommentOutlined} from '@ant-design/icons';
+import {Card, Spin, Popconfirm} from "antd";
+import {LikeOutlined, LikeFilled, CommentOutlined, DeleteOutlined} from '@ant-design/icons';
 import moment from "moment";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {useAddLikeMutation, useRemoveLikeMutation} from "../../app/services/like";
 import {ErrorHandler} from "../../utils/ErrorHandler";
+import {useRemovePostMutation} from "../../app/services/posts";
 
 type Props = {
     uuid: string;
@@ -33,14 +34,17 @@ const Post = ({
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = useState('');
 
+    //like functions
     const [addLike] = useAddLikeMutation()
     const [removeLike] = useRemoveLikeMutation()
-
     const isLikedCheck = likes?.find(like => like.userUUID == auth.user.uuid);
     const [isLiked, setIsLiked] = useState(isLikedCheck);
     const [likesLength, setLikesLength] = useState(likes?.length || 0);
+    //post functions
+    const [removePost] = useRemovePostMutation()
+    const [isVisible, setIsVisible] = useState(true);
 
-    const like = async () => {
+    const likeByUUID = async () => {
         try {
             setLoading(true)
             if (isLiked) {
@@ -64,8 +68,26 @@ const Post = ({
         }
     }
 
+    const removePostByUUID = async () => {
+        try {
+            setLoading(true)
+            await removePost(uuid)
+            setIsVisible(false)
+        } catch (error) {
+            const maybeError = ErrorHandler(error);
+
+            if (maybeError) {
+                setError(error.data.message);
+            } else {
+                setError("Unknown error");
+            }
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
-        <div className='Post mt-10'>
+        <div className={'Post mt-10' + (!isVisible ? ' hidden' : ' block')}>
             <Spin spinning={loading}>
                 <Card
                     title={<Link to={'/user/' + author.uuid}>{author.username}</Link>}
@@ -73,7 +95,7 @@ const Post = ({
                     bordered={true}
                     type="inner"
                     actions={[
-                        <div className='like' onClick={like}>
+                        <div className='like' onClick={likeByUUID}>
                             {
                                 isLiked ? (
                                     <LikeFilled className='mr-2'/>
@@ -85,6 +107,18 @@ const Post = ({
                         </div>,
                         <div>
                             <CommentOutlined key="edit"/>
+                        </div>,
+                        <div className={author.uuid == auth.user.uuid ? 'block' : 'hidden'}>
+                            <Popconfirm
+                                placement='topRight'
+                                title="Delete the post"
+                                description="Are you sure to delete this post?"
+                                onConfirm={removePostByUUID}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <DeleteOutlined />
+                            </Popconfirm>
                         </div>
                     ]}>
                     <h1>{text}</h1>

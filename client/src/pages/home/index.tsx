@@ -5,12 +5,12 @@ import {Spin} from "antd";
 import CustomForm from "../../components/form";
 
 export const Home = () => {
-    const {data, isLoading, isFetching} = useGetAllPostsQuery();
+    const {data, isLoading, isFetching, refetch} = useGetAllPostsQuery();
 
     return (
         <div className='Home'>
             <Spin spinning={isLoading}>
-                <CustomForm title='Create new post' />
+                <CustomForm title='Create new post' refetch={refetch} />
                 {
                     !isFetching && data ? (
                         <div className='posts'>
