@@ -2,31 +2,22 @@ import React, {useRef, useState} from 'react';
 // @ts-ignore
 import {Post} from "@prisma/client";
 import {useSelector} from "react-redux";
-import {Link} from "react-router-dom";
 import {Button, Card, Form, Input, Row, Space, Spin} from "antd";
 import {Error} from "../error";
 import {useAddPostMutation} from "../../app/services/posts";
 import {ErrorHandler} from "../../utils/ErrorHandler";
+import NotAuth from "../notAuth/index";
 
 type Props = {
     title: string;
     refetch?: any;
 }
 
-const CustomForm = ({title, refetch}: Props) => {
+const PostForm = ({title, refetch}: Props) => {
     const auth = useSelector((state: any) => state.auth);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = useState('');
-    // const [input, setInput] = useState("");
     const [addPost] = useAddPostMutation()
-    // const gg = useRef<any>(null)
-
-    // const handleInput = (event: any) => {
-    //     setInput(event.target.value)
-    //     event.preventDefault();
-    //     // event.target.value = ''
-    //     console.log(input)
-    // }
 
     const CreatePost = async (data: Post) => {
         try {
@@ -41,11 +32,6 @@ const CustomForm = ({title, refetch}: Props) => {
             }
         } finally {
             await refetch()
-            // setTimeout(() => {
-                // gg.current.input.value = 'hbhj'
-                // setInput("7878")
-            // }, 500)
-            // console.log(gg.current.input.value)
             setLoading(false)
         }
     }
@@ -73,12 +59,8 @@ const CustomForm = ({title, refetch}: Props) => {
                                             ]}
                                         >
                                             <Input
-                                                // ref={gg}
                                                 placeholder="Text"
                                                 allowClear
-                                                // onChange={event => {setInput(event.target.value)}}
-                                                // initialValues={input}
-                                                // value={input}
                                             />
                                         </Form.Item>
 
@@ -98,10 +80,7 @@ const CustomForm = ({title, refetch}: Props) => {
                     </div>
                 ) : (
                     <div>
-                        Please
-                        <Link to='/register'>Register</Link> or
-                        <Link to='/login'>Login</Link>
-                        for posting new Posts, Comments and likes!
+                        <NotAuth/>
                     </div>
                 )
             }
@@ -109,4 +88,4 @@ const CustomForm = ({title, refetch}: Props) => {
     );
 };
 
-export default CustomForm;
+export default PostForm;

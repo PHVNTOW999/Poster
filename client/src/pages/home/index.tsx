@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import Post from "../../components/post";
 import {useGetAllPostsQuery} from "../../app/services/posts";
 import {Spin} from "antd";
-import CustomForm from "../../components/form";
+import PostForm from "../../components/postForm";
 
 export const Home = () => {
     const {data, isLoading, isFetching, refetch} = useGetAllPostsQuery();
@@ -10,7 +10,7 @@ export const Home = () => {
     return (
         <div className='Home'>
             <Spin spinning={isLoading}>
-                <CustomForm title='Create new post' refetch={refetch} />
+                <PostForm title='Create new post' refetch={refetch}/>
                 {
                     !isFetching && data ? (
                         <div className='posts'>
@@ -18,10 +18,12 @@ export const Home = () => {
                                 data.map((post, i) => {
                                     return <Post
                                         uuid={post.uuid}
-                                        author={post.author}
+                                        author={post.author || {
+                                            uuid: null,
+                                            username: null
+                                        }}
                                         text={post.text}
                                         likes={post.postLikes}
-                                        comments={post.postComments}
                                         createdAt={post.createdAt}
                                         key={i}/>
                                 })

@@ -4,6 +4,7 @@ import {Login} from "./pages/auth/login";
 import {Root} from "./pages/root";
 import Register from "./pages/auth/register";
 import User from "./pages/user";
+import Post from "./pages/post";
 
 export const paths = [
     {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
             {
                 path: "/user/:uuid",
                 element: <User/>,
+            },
+            {
+                path: "/post/:uuid",
+                element: <Post/>,
             },
             {
                 path: "/login",

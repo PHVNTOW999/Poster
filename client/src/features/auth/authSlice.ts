@@ -10,7 +10,9 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-    user: null,
+    user: {
+        uuid: null
+    },
     isAuthenticated: false,
 }
 

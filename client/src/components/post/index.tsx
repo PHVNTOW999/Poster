@@ -25,7 +25,6 @@ const Post = ({
                   author,
                   text,
                   likes,
-                  comments,
                   createdAt,
               }: Props) => {
 
@@ -105,10 +104,12 @@ const Post = ({
                             }
                             {likesLength}
                         </div>,
-                        <div>
-                            <CommentOutlined key="edit"/>
+                        <div className='comments'>
+                            <Link to={'/post/' + uuid}>
+                                <CommentOutlined key="edit"/>
+                            </Link>
                         </div>,
-                        <div className={author.uuid == auth.user.uuid ? 'block' : 'hidden'}>
+                        <div className={'remove' + (author.uuid == auth.user.uuid ? ' block' : ' hidden')}>
                             <Popconfirm
                                 placement='topRight'
                                 title="Delete the post"
