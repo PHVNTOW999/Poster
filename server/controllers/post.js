@@ -32,7 +32,9 @@ const all = async (req, res) => {
             },
             orderBy: {
                 createdAt: 'desc',
-            }
+            },
+            skip: + req.query.skip || 0,
+            take: + req.query.take || 10,
         })
 
         return returnJSON(req, res, posts)

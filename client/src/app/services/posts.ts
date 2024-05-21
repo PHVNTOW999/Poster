@@ -10,9 +10,9 @@ export const postsApi = api.injectEndpoints({
                 body: data
             })
         }),
-        getAllPosts: builder.query<Post[], void>({
-            query: () => ({
-                url: 'post/all',
+        getAllPosts: builder.query<Post[], number>({
+            query: (skip) => ({
+                url: `post/all?skip=${skip}`,
                 method: 'GET'
             })
         }),
