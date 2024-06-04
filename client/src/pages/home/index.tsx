@@ -10,27 +10,33 @@ export const Home = () => {
     const {data, isLoading, isFetching, refetch} = useGetAllPostsQuery(skip);
     const [posts, setPosts] = useState<any[]>([])
 
-    const GetPosts = async (data: any, posts: any, skip: number) => {
+    const GetPosts = async (data: any, posts: any) => {
         try {
             await isLoading
             await data
+            await isFetching
 
-            if(!posts.length && data.length) {
-                setPosts([...posts, ...data])
-            }
-            else if(data[0].uuid !== posts[0].uuid) {
-                setPosts([...posts, ...data])
+            if (data.length && !posts.length) setPosts([...posts, ...data])
+            else {
+                let checkedData: { uuid: any; }[] = []
+
+                data.forEach((obj: { uuid: any }) => {
+                    const checkPost = posts.find((post: { uuid: any }) => {
+                        if (obj.uuid === post.uuid) return obj
+                    })
+
+                    if (!checkPost) checkedData.push(obj)
+                })
+
+                setPosts([...checkedData, ...posts])
             }
         } catch (e) {
             console.log(e)
-        } finally {
-            await isFetching
         }
     }
 
-
     useEffect(() => {
-        GetPosts(data, posts, skip).then(r => null)
+        if (!isLoading && !isFetching) GetPosts(data, posts).then(r => null)
 
         document.addEventListener('scroll', (event: Event) => {
             if (data?.length) scrollHandler(event, data, posts, skip)
@@ -42,7 +48,7 @@ export const Home = () => {
             })
         }
 
-    }, [isFetching])
+    }, [data])
 
     const scrollHandler = (e: any, data: any, posts: any, skip: number) => {
         const scrollHeight = e.target.documentElement.scrollHeight
@@ -51,7 +57,7 @@ export const Home = () => {
 
         if (scrollHeight - (scrollTop + winHeight) < 1) {
             setSkip(skip + 10)
-            GetPosts(data, posts, skip).then(r => null)
+            GetPosts(data, posts).then(r => null)
         }
     }
 

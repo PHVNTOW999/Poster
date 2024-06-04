@@ -25,7 +25,7 @@ model Post {
   text         String
   // autofill
   uuid         String    @id @default(uuid())
-  author       User      @relation(fields: [authorUUID], references: [uuid])
+  author       User      @relation(fields: [authorUUID], references: [uuid], onDelete: Cascade)
   authorUUID   String
   postLikes    Like[]
   postComments Comment[]
@@ -35,9 +35,9 @@ model Post {
 model Like {
   // autofill
   uuid      String   @id @default(uuid())
-  post      Post     @relation(fields: [postUUID], references: [uuid])
+  post      Post     @relation(fields: [postUUID], references: [uuid], onDelete: Cascade)
   postUUID  String
-  user      User     @relation(fields: [userUUID], references: [uuid])
+  user      User     @relation(fields: [userUUID], references: [uuid], onDelete: Cascade)
   userUUID  String
   createdAt DateTime @default(now())
 }
@@ -47,9 +47,9 @@ model Comment {
   text       String
   // autofill
   uuid       String   @id @default(uuid())
-  post       Post     @relation(fields: [postUUID], references: [uuid])
+  post       Post     @relation(fields: [postUUID], references: [uuid], onDelete: Cascade)
   postUUID   String
-  author     User     @relation(fields: [authorUUID], references: [uuid])
+  author     User     @relation(fields: [authorUUID], references: [uuid], onDelete: Cascade)
   authorUUID String
   createdAt  DateTime @default(now())
 }

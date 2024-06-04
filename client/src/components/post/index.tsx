@@ -80,6 +80,8 @@ const Post = ({
             } else {
                 setError("Unknown error");
             }
+
+            setIsVisible(true)
         } finally {
             setLoading(false)
         }
@@ -118,7 +120,7 @@ const Post = ({
                                 okText="Yes"
                                 cancelText="No"
                             >
-                                <DeleteOutlined />
+                                <DeleteOutlined/>
                             </Popconfirm>
                         </div>
                     ]}>

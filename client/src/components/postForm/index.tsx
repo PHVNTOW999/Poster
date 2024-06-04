@@ -18,11 +18,14 @@ const PostForm = ({title, refetch}: Props) => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = useState('');
     const [addPost] = useAddPostMutation()
+    const [form] = Form.useForm();
 
     const CreatePost = async (data: Post) => {
         try {
             setLoading(true)
             await addPost(data).unwrap()
+            await refetch()
+            form.resetFields()
         } catch (error) {
             const maybeError = ErrorHandler(error);
             if (maybeError) {
@@ -31,7 +34,6 @@ const PostForm = ({title, refetch}: Props) => {
                 setError('Unknown error')
             }
         } finally {
-            await refetch()
             setLoading(false)
         }
     }
@@ -45,6 +47,7 @@ const PostForm = ({title, refetch}: Props) => {
                             <Card title={title} className='w-full'>
                                 <Spin spinning={loading}>
                                     <Form
+                                        form={form}
                                         onFinish={CreatePost}
                                         name="normal_login"
                                         className="login-form"
