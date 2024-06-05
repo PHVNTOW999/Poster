@@ -1,12 +1,14 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 // @ts-ignore
 import {Post} from "@prisma/client";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Button, Card, Form, Input, Row, Space, Spin} from "antd";
-import {Error} from "../error";
+// import {Error} from "../error";
 import {useAddPostMutation} from "../../app/services/posts";
-import {ErrorHandler} from "../../utils/ErrorHandler";
+// import {ErrorHandler} from "../../utils/ErrorHandler";
 import NotAuth from "../notAuth/index";
+import {logout} from "../../features/auth/authSlice";
+import {addError} from "../../features/errors/errorSlicer";
 
 type Props = {
     title: string;
@@ -16,9 +18,9 @@ type Props = {
 const PostForm = ({title, refetch}: Props) => {
     const auth = useSelector((state: any) => state.auth);
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [error, setError] = useState('');
     const [addPost] = useAddPostMutation()
     const [form] = Form.useForm();
+    const dispatch = useDispatch();
 
     const CreatePost = async (data: Post) => {
         try {
@@ -26,13 +28,8 @@ const PostForm = ({title, refetch}: Props) => {
             await addPost(data).unwrap()
             await refetch()
             form.resetFields()
-        } catch (error) {
-            const maybeError = ErrorHandler(error);
-            if (maybeError) {
-                setError(error.data.message)
-            } else {
-                setError('Unknown error')
-            }
+        } catch (err) {
+            dispatch(addError(err));
         } finally {
             setLoading(false)
         }
@@ -75,7 +72,7 @@ const PostForm = ({title, refetch}: Props) => {
                                         </Form.Item>
                                     </Form>
                                     <Space direction="vertical" size="large">
-                                        <Error message={error}/>
+                                        {/*<Error message={error}/>*/}
                                     </Space>
                                 </Spin>
                             </Card>

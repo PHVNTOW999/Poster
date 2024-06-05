@@ -1,9 +1,9 @@
 import {Button, Card, Form, Input, Row, Space, Spin, Typography} from "antd";
 import React, {useState} from "react";
 import {useLoginMutation, UserData} from "../../../app/services/auth";
-import {ErrorHandler} from "../../../utils/ErrorHandler";
+// import {ErrorHandler} from "../../../utils/ErrorHandler";
 import {Link, useNavigate} from "react-router-dom";
-import {Error} from "../../../components/error";
+// import {Error} from "../../../components/error";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -16,13 +16,13 @@ export const Login = () => {
             await loginUser(data).unwrap();
             navigate("/")
         } catch (error) {
-            const maybeError = ErrorHandler(error);
+            // const maybeError = ErrorHandler(error);
 
-            if (maybeError) {
-                setError(error.data.message);
-            } else {
-                setError("Unknown error");
-            }
+            // if (maybeError) {
+            //     setError(error.data.message);
+            // } else {
+            //     setError("Unknown error");
+            // }
         } finally {
             setLoading(false)
         }
@@ -76,7 +76,7 @@ export const Login = () => {
                             <Typography.Text>
                                 Don't have an account? <Link to='/register'>Register</Link>
                             </Typography.Text>
-                            <Error message={error}/>
+                            {/*<Error message={error}/>*/}
                         </Space>
                     </Spin>
                 </Card>

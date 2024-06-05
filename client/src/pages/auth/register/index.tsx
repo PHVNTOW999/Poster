@@ -4,8 +4,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {useLoginMutation, useRegisterMutation} from "../../../app/services/auth";
 import {selectUser} from "../../../features/auth/authSlice";
-import {ErrorHandler} from "../../../utils/ErrorHandler";
-import {Error} from "../../../components/error";
+// import {ErrorHandler} from "../../../utils/ErrorHandler";
+// import {Error} from "../../../components/error";
 // @ts-ignore
 import {User} from "@prisma/client";
 type RegisterData = Omit<User, "uuid"> & {confirmPassword: string}
@@ -25,13 +25,13 @@ const Register = () => {
             await loginUser(data)
             navigate("/");
         } catch (error) {
-            const maybeError = ErrorHandler(error);
-
-            if (maybeError) {
-                setError(error.data.message);
-            } else {
-                setError("Unknown error");
-            }
+            // const maybeError = ErrorHandler(error);
+            //
+            // if (maybeError) {
+            //     setError(error.data.message);
+            // } else {
+            //     setError("Unknown error");
+            // }
         } finally {
             setLoading(false)
         }
@@ -120,7 +120,7 @@ const Register = () => {
                             <Typography.Text>
                                 Are you have an account? <Link to='/login'>Login</Link>
                             </Typography.Text>
-                            <Error message={error}/>
+                            {/*<Error message={error}/>*/}
                         </Space>
                     </Spin>
                 </Card>

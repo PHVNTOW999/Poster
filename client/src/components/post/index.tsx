@@ -5,7 +5,7 @@ import moment from "moment";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {useAddLikeMutation, useRemoveLikeMutation} from "../../app/services/like";
-import {ErrorHandler} from "../../utils/ErrorHandler";
+// import {ErrorHandler} from "../../utils/ErrorHandler";
 import {useRemovePostMutation} from "../../app/services/posts";
 
 type Props = {
@@ -55,13 +55,13 @@ const Post = ({
                 setLikesLength(likesLength + 1)
             }
         } catch (error) {
-            const maybeError = ErrorHandler(error);
-
-            if (maybeError) {
-                setError(error.data.message);
-            } else {
-                setError("Unknown error");
-            }
+            // const maybeError = ErrorHandler(error);
+            //
+            // if (maybeError) {
+            //     setError(error.data.message);
+            // } else {
+            //     setError("Unknown error");
+            // }
         } finally {
             setLoading(false)
         }
@@ -73,13 +73,13 @@ const Post = ({
             await removePost(uuid)
             setIsVisible(false)
         } catch (error) {
-            const maybeError = ErrorHandler(error);
-
-            if (maybeError) {
-                setError(error.data.message);
-            } else {
-                setError("Unknown error");
-            }
+            // const maybeError = ErrorHandler(error);
+            //
+            // if (maybeError) {
+            //     setError(error.data.message);
+            // } else {
+            //     setError("Unknown error");
+            // }
 
             setIsVisible(true)
         } finally {
