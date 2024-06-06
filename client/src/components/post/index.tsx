@@ -3,10 +3,10 @@ import {Card, Spin, Popconfirm} from "antd";
 import {LikeOutlined, LikeFilled, CommentOutlined, DeleteOutlined} from '@ant-design/icons';
 import moment from "moment";
 import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useAddLikeMutation, useRemoveLikeMutation} from "../../app/services/like";
-// import {ErrorHandler} from "../../utils/ErrorHandler";
 import {useRemovePostMutation} from "../../app/services/posts";
+import {addError} from "../../features/errors/errorSlicer";
 
 type Props = {
     uuid: string;
@@ -29,9 +29,8 @@ const Post = ({
               }: Props) => {
 
     const auth = useSelector((state: any) => state.auth);
-
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [error, setError] = useState('');
+    const dispatch = useDispatch();
 
     //like functions
     const [addLike] = useAddLikeMutation()
@@ -55,13 +54,7 @@ const Post = ({
                 setLikesLength(likesLength + 1)
             }
         } catch (error) {
-            // const maybeError = ErrorHandler(error);
-            //
-            // if (maybeError) {
-            //     setError(error.data.message);
-            // } else {
-            //     setError("Unknown error");
-            // }
+            dispatch(addError(error));
         } finally {
             setLoading(false)
         }
@@ -73,14 +66,7 @@ const Post = ({
             await removePost(uuid)
             setIsVisible(false)
         } catch (error) {
-            // const maybeError = ErrorHandler(error);
-            //
-            // if (maybeError) {
-            //     setError(error.data.message);
-            // } else {
-            //     setError("Unknown error");
-            // }
-
+            dispatch(addError(error));
             setIsVisible(true)
         } finally {
             setLoading(false)

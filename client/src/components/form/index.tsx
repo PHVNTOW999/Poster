@@ -1,32 +1,26 @@
-import React, {useState} from 'react';
-// @ts-ignore
-import {Post} from "@prisma/client";
+import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Card, Form, Input, Row, Space, Spin} from "antd";
-// import {Error} from "../error";
-import {useAddPostMutation} from "../../app/services/posts";
-// import {ErrorHandler} from "../../utils/ErrorHandler";
+import {Button, Card, Form, Input, Row, Spin} from "antd";
 import NotAuth from "../notAuth/index";
-import {logout} from "../../features/auth/authSlice";
 import {addError} from "../../features/errors/errorSlicer";
 
 type Props = {
     title: string;
+    submitName?: string;
+    submit?: any;
     refetch?: any;
 }
 
-const PostForm = ({title, refetch}: Props) => {
-    const auth = useSelector((state: any) => state.auth);
+const PostForm = ({title, submitName, refetch, submit}: Props) => {
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [addPost] = useAddPostMutation()
+    const auth = useSelector((state: any) => state.auth);
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
-    const CreatePost = async (data: Post) => {
+    const onFinish = async (data: any) => {
         try {
             setLoading(true)
-            await addPost(data).unwrap()
-            await refetch()
+            await submit(data)
             form.resetFields()
         } catch (err) {
             dispatch(addError(err));
@@ -45,7 +39,7 @@ const PostForm = ({title, refetch}: Props) => {
                                 <Spin spinning={loading}>
                                     <Form
                                         form={form}
-                                        onFinish={CreatePost}
+                                        onFinish={onFinish}
                                         name="normal_login"
                                         className="login-form"
                                     >
@@ -67,13 +61,10 @@ const PostForm = ({title, refetch}: Props) => {
                                         <Form.Item>
                                             <Button type="primary" htmlType="submit"
                                                     className="login-form-button w-full">
-                                                Submit
+                                                {submitName || 'Submit'}
                                             </Button>
                                         </Form.Item>
                                     </Form>
-                                    <Space direction="vertical" size="large">
-                                        {/*<Error message={error}/>*/}
-                                    </Space>
                                 </Spin>
                             </Card>
                         </Row>

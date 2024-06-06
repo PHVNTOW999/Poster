@@ -18,7 +18,6 @@ export const ErrorHandler = () => {
     useEffect(() => {
         const lastError = errors.errorList.slice(-1);
         if(errors.errorList.length) errorMess(lastError[0])
-        console.log(lastError)
     }, [errors]);
 
     return (
