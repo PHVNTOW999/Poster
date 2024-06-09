@@ -5,6 +5,7 @@ import {Root} from "./pages/root";
 import Register from "./pages/auth/register";
 import User from "./pages/user";
 import Post from "./pages/post";
+import Popular from "./pages/popular";
 
 export const paths = [
     {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
             {
                 path: "/home",
                 element: <Home/>,
+            },
+            {
+                path: "/popular",
+                element: <Popular/>,
             },
             {
                 path: "/user/:uuid",

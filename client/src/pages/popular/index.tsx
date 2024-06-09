@@ -1,14 +1,14 @@
-import React, {useState} from "react";
-import {useAddPostMutation, useGetAllPostsQuery} from "../../app/services/posts";
+import React, {useState} from 'react';
 import PostForm from "../../components/form";
-import {addError} from "../../features/errors/errorSlicer";
-import {useDispatch} from "react-redux";
 import PostList from "../../components/postList";
+import {useDispatch} from "react-redux";
+import {useAddPostMutation, useGetAllPopularPostsQuery} from "../../app/services/posts";
+import {addError} from "../../features/errors/errorSlicer";
 
-export const Home = () => {
+const Popular = () => {
     const dispatch = useDispatch();
     const [skip, setSkip] = useState(0)
-    const {data, isLoading, isFetching, refetch} = useGetAllPostsQuery(skip);
+    const {data, isLoading, isFetching, refetch} = useGetAllPopularPostsQuery(skip);
     const [addPost] = useAddPostMutation()
 
     const createPost = async (data: any) => {
@@ -22,9 +22,11 @@ export const Home = () => {
     }
 
     return (
-        <div className='Home'>
+        <div className='popular'>
             <PostForm title='Create new post' submitName='Create' submit={createPost}/>
             <PostList isLoading={isLoading} isFetching={isFetching} data={data} skip={skip} returnSkip={setSkip} />
         </div>
     );
 };
+
+export default Popular;

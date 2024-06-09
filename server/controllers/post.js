@@ -53,13 +53,20 @@ const popular = async (req, res) => {
         const posts = await prisma.post.findMany({
             include: {
                 postLikes: true,
-                author: true,
+                author: {
+                    select: {
+                        username: true,
+                        uuid: true,
+                    },
+                }
             },
             orderBy: {
                 postLikes: {
                     _count: 'desc'
                 }
-            }
+            },
+            skip: + req.query.skip || 0,
+            take: + req.query.take || 10,
         })
 
         return returnJSON(req, res, posts)

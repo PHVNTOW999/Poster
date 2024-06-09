@@ -16,19 +16,18 @@ export const postsApi = api.injectEndpoints({
                 method: 'GET'
             })
         }),
+        getAllPopularPosts: builder.query<Post[], number>({
+            query: (skip) => ({
+                url: `post/popular?skip=${skip}`,
+                method: 'GET'
+            })
+        }),
         getPost: builder.query<Post, string>({
             query: (uuid) => ({
                 url: `/post/${uuid}`,
                 method: 'GET'
             })
         }),
-        // editEmployee: builder.mutation<string, Employee>({
-        //     query: (employee) => ({
-        //         url: `/employees/edit/${employee.id}`,
-        //         method: 'PUT',
-        //         body: employee
-        //     })
-        // }),
         removePost: builder.mutation<string, string>({
             query: (uuid) => ({
                 url: `/post/remove/${uuid}`,
@@ -41,8 +40,8 @@ export const postsApi = api.injectEndpoints({
 export const {
     useAddPostMutation,
     useGetAllPostsQuery,
+    useGetAllPopularPostsQuery,
     useGetPostQuery,
-    // useEditEmployeeMutation,
     useRemovePostMutation
 } = postsApi;
 
@@ -50,8 +49,8 @@ export const {
     endpoints: {
         addPost,
         getAllPosts,
+        getAllPopularPosts,
         getPost,
-        // editEmployee,
         removePost
     }
 } = postsApi;

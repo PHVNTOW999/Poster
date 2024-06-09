@@ -1,11 +1,28 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
+import {useGetAllPostsQuery, useGetPostQuery} from "../../app/services/posts";
 
 const Post = () => {
-    const params = useParams<{ uuid: string }>();
+    let { uuid } = useParams();
+    uuid = uuid as string
+
+    const {data, isLoading, isFetching, refetch} = useGetPostQuery(uuid);
+
     return (
         <div className='postPage'>
-            <h1>{params.uuid}</h1>
+            {
+                !isLoading && !isFetching && data ? (
+                    <div className='post'>
+                        {data.text}
+                    </div>
+                    )
+                    : (
+                        <div className='post'>
+
+                        </div>
+                    )
+            }
+            {/*<h1>{data.text}</h1>*/}
         </div>
     );
 };
