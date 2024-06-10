@@ -16,11 +16,11 @@ const CommentList = ({data}: Props) => {
                                 {
                                     data.map((comment: any) => {
                                         return <Comment
-                                            author={comment.author}
-                                            createdAt={comment.createdAt}
-                                            text={comment.text}
                                             uuid={comment.uuid}
-                                            key={comment.uuid} />
+                                            author={comment.author}
+                                            text={comment.text}
+                                            createdAt={comment.createdAt}
+                                            key={comment.uuid}/>
                                     })
                                 }
                             </div>

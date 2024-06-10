@@ -13,7 +13,7 @@ export const Header = () => {
     const Logout = () => {
         dispatch(logout());
         localStorage.removeItem('token')
-        navigate('/');
+        navigate('/login');
     }
     return (
         <header className='header w-full p-4 pl-10 pr-10 flow-root'>

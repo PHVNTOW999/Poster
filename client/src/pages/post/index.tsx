@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useAddPostMutation, useGetPostQuery} from "../../app/services/posts";
 import {Space, Spin} from "antd";
@@ -10,10 +10,11 @@ import {useDispatch} from "react-redux";
 import CommentList from "../../components/commentList";
 
 const PostPage = () => {
+    const dispatch = useDispatch();
+
     let {uuid} = useParams();
     uuid = uuid as string
 
-    const dispatch = useDispatch();
     const {data, isLoading, isFetching, refetch} = useGetPostQuery(uuid);
     const [addComment] = useAddCommentMutation()
 
@@ -43,13 +44,13 @@ const PostPage = () => {
                                     text={data.text}
                                     uuid={data.uuid}
                                     likes={data.postLikes}/>
-                                <div className='mt-5'>
+                                <div className='mt-5 mb-5'>
                                     <CustomForm
                                         title='Send a new comment'
                                         submit={createComment}/>
                                 </div>
-                                <div className='mt-5 mb-5'>
-                                    <CommentList data={data.postComments} />
+                                <div className='mb-5'>
+                                    <CommentList data={data.postComments}/>
                                 </div>
                             </div>
                         )
