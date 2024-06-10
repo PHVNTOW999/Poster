@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useAddPostMutation, useGetAllPostsQuery} from "../../app/services/posts";
-import PostForm from "../../components/form";
+import CustomForm from "../../components/form";
 import {addError} from "../../features/errors/errorSlicer";
 import {useDispatch} from "react-redux";
 import PostList from "../../components/postList";
@@ -23,7 +23,7 @@ export const Home = () => {
 
     return (
         <div className='Home'>
-            <PostForm title='Create new post' submitName='Create' submit={createPost}/>
+            <CustomForm title='Create new post' submitName='Create' submit={createPost}/>
             <PostList isLoading={isLoading} isFetching={isFetching} data={data} skip={skip} returnSkip={setSkip} />
         </div>
     );

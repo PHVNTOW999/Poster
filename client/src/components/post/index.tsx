@@ -15,8 +15,7 @@ type Props = {
         username: string
     };
     text: string;
-    likes?: Array<any>;
-    comments?: Array<object>;
+    likes: Array<any>;
     createdAt: string;
 }
 
@@ -50,7 +49,9 @@ const Post = ({
                 setLikesLength(likesLength - 1)
                 setIsLiked(undefined)
             } else {
-                await addLike(uuid).unwrap().then((like) => {setIsLiked(like)})
+                await addLike(uuid).unwrap().then((like) => {
+                    setIsLiked(like)
+                })
                 setLikesLength(likesLength + 1)
             }
         } catch (error) {
@@ -73,45 +74,71 @@ const Post = ({
         }
     }
 
+    const postLikeAction = () => {
+        return <div className='like' onClick={likeByUUID}>
+            {
+                isLiked ? (
+                    <LikeFilled className='mr-2'/>
+                ) : (
+                    <LikeOutlined key="edit" className='mr-2'/>
+                )
+            }
+            {likesLength}
+        </div>
+    }
+    const postCommentsAction = () => {
+        return <div className='comments'>
+            <Link to={'/post/' + uuid}>
+                <CommentOutlined key="edit"/>
+            </Link>
+        </div>
+    }
+    const postRemoveAction = () => {
+        return <div className={'remove' + (author.uuid == auth.user.uuid ? ' block' : ' hidden')}>
+            <Popconfirm
+                placement='topRight'
+                title="Delete the post"
+                description="Are you sure to delete this post?"
+                onConfirm={removePostByUUID}
+                okText="Yes"
+                cancelText="No"
+            >
+                <DeleteOutlined/>
+            </Popconfirm>
+        </div>
+    }
+
     return (
         <div className={'Post mt-10' + (!isVisible ? ' hidden' : ' block')}>
             <Spin spinning={loading}>
-                <Card
-                    title={<Link to={'/user/' + author.uuid}>{author.username}</Link>}
-                    extra={<p>{moment(createdAt).format('DD.MM.YYYY - HH:mm')}</p>}
-                    bordered={true}
-                    type="inner"
-                    actions={[
-                        <div className='like' onClick={likeByUUID}>
-                            {
-                                isLiked ? (
-                                    <LikeFilled className='mr-2'/>
-                                ) : (
-                                    <LikeOutlined key="edit" className='mr-2'/>
-                                )
-                            }
-                            {likesLength}
-                        </div>,
-                        <div className='comments'>
-                            <Link to={'/post/' + uuid}>
-                                <CommentOutlined key="edit"/>
-                            </Link>
-                        </div>,
-                        <div className={'remove' + (author.uuid == auth.user.uuid ? ' block' : ' hidden')}>
-                            <Popconfirm
-                                placement='topRight'
-                                title="Delete the post"
-                                description="Are you sure to delete this post?"
-                                onConfirm={removePostByUUID}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <DeleteOutlined/>
-                            </Popconfirm>
-                        </div>
-                    ]}>
-                    <h1>{text}</h1>
-                </Card>
+                {
+                    author.uuid !== auth.user.uuid ? (
+                        <Card
+                            title={<Link to={'/user/' + author.uuid}>{author.username}</Link>}
+                            extra={<p>{moment(createdAt).format('DD.MM.YYYY - HH:mm')}</p>}
+                            bordered={true}
+                            type="inner"
+                            actions={[
+                                postLikeAction(),
+                                postCommentsAction(),
+                            ]}>
+                            <h1>{text}</h1>
+                        </Card>
+                    ) : (
+                        <Card
+                            title={<Link to={'/user/' + author.uuid}>{author.username}</Link>}
+                            extra={<p>{moment(createdAt).format('DD.MM.YYYY - HH:mm')}</p>}
+                            bordered={true}
+                            type="inner"
+                            actions={[
+                                postLikeAction(),
+                                postCommentsAction(),
+                                postRemoveAction()
+                            ]}>
+                            <h1>{text}</h1>
+                        </Card>
+                    )
+                }
             </Spin>
         </div>
     );

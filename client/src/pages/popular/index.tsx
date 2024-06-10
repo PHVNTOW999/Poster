@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import PostForm from "../../components/form";
+import CustomForm from "../../components/form";
 import PostList from "../../components/postList";
 import {useDispatch} from "react-redux";
 import {useAddPostMutation, useGetAllPopularPostsQuery} from "../../app/services/posts";
@@ -23,7 +23,7 @@ const Popular = () => {
 
     return (
         <div className='popular'>
-            <PostForm title='Create new post' submitName='Create' submit={createPost}/>
+            <CustomForm title='Create new post' submitName='Create' submit={createPost}/>
             <PostList isLoading={isLoading} isFetching={isFetching} data={data} skip={skip} returnSkip={setSkip} />
         </div>
     );

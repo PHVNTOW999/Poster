@@ -38,8 +38,8 @@ const all = async (req, res) => {
             orderBy: {
                 createdAt: 'desc',
             },
-            skip: + req.query.skip || 0,
-            take: + req.query.take || 10,
+            skip: +req.query.skip || 0,
+            take: +req.query.take || 10,
         })
 
         return returnJSON(req, res, posts)
@@ -65,8 +65,8 @@ const popular = async (req, res) => {
                     _count: 'desc'
                 }
             },
-            skip: + req.query.skip || 0,
-            take: + req.query.take || 10,
+            skip: +req.query.skip || 0,
+            take: +req.query.take || 10,
         })
 
         return returnJSON(req, res, posts)
@@ -97,7 +97,32 @@ const postByUUID = async (req, res) => {
         const post = await prisma.post.findFirst({
             where: {
                 uuid: req.params.uuid
-            }
+            },
+            include: {
+                postLikes: true,
+                postComments: {
+                    orderBy: {
+                        createdAt: 'desc'
+                    },
+                    select: {
+                        uuid: true,
+                        author: {
+                            select: {
+                                username: true,
+                                uuid: true,
+                            },
+                        },
+                        text: true,
+                        createdAt: true,
+                    },
+                },
+                author: {
+                    select: {
+                        username: true,
+                        uuid: true,
+                    },
+                },
+            },
         })
 
         return returnJSON(req, res, post)

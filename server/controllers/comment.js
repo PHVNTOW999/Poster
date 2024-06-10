@@ -8,7 +8,7 @@ const create = async (req, res) => {
         const comment = await prisma.comment.create({
             data: {
                 ...data,
-                userUUID: req.user.uuid,
+                authorUUID: req.user.uuid,
                 postUUID: req.params.uuid,
             }
         })

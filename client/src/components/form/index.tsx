@@ -7,11 +7,11 @@ import {addError} from "../../features/errors/errorSlicer";
 type Props = {
     title: string;
     submitName?: string;
-    submit?: any;
+    submit: any;
     refetch?: any;
 }
 
-const PostForm = ({title, submitName, refetch, submit}: Props) => {
+const CustomForm = ({title, submitName, refetch, submit}: Props) => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const auth = useSelector((state: any) => state.auth);
     const [form] = Form.useForm();
@@ -79,4 +79,4 @@ const PostForm = ({title, submitName, refetch, submit}: Props) => {
     );
 };
 
-export default PostForm;
+export default CustomForm;
