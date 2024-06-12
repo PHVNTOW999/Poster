@@ -23,8 +23,15 @@ export const Home = () => {
 
     return (
         <div className='Home'>
-            <CustomForm title='Create new post' submitName='Create' submit={createPost}/>
-            <PostList isLoading={isLoading} isFetching={isFetching} data={data} skip={skip} returnSkip={setSkip} />
+            <CustomForm title='Create new post'
+                        submitName='Create'
+                        submit={createPost}/>
+            <PostList isLoading={isLoading}
+                      isFetching={isFetching}
+                      data={data}
+                      skip={skip}
+                      returnSkip={setSkip}
+                      pagination={true}/>
         </div>
     );
 };

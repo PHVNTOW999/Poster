@@ -24,7 +24,12 @@ const Popular = () => {
     return (
         <div className='popular'>
             <CustomForm title='Create new post' submitName='Create' submit={createPost}/>
-            <PostList isLoading={isLoading} isFetching={isFetching} data={data} skip={skip} returnSkip={setSkip} />
+            <PostList isLoading={isLoading}
+                      isFetching={isFetching}
+                      data={data}
+                      skip={skip}
+                      returnSkip={setSkip}
+                      pagination={true}/>
         </div>
     );
 };

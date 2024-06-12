@@ -17,6 +17,7 @@ type Props = {
     text: string;
     likes: Array<any>;
     createdAt: string;
+    refetch?: any;
 }
 
 const Post = ({
@@ -25,6 +26,7 @@ const Post = ({
                   text,
                   likes,
                   createdAt,
+                  refetch
               }: Props) => {
 
     const auth = useSelector((state: any) => state.auth);
@@ -57,6 +59,7 @@ const Post = ({
         } catch (error) {
             dispatch(addError(error));
         } finally {
+            if(refetch) await refetch()
             setLoading(false)
         }
     }
@@ -70,6 +73,7 @@ const Post = ({
             dispatch(addError(error));
             setIsVisible(true)
         } finally {
+            if(refetch) await refetch()
             setLoading(false)
         }
     }

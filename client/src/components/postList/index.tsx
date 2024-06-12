@@ -10,9 +10,18 @@ type Props = {
     data: any;
     skip: number;
     returnSkip: any;
+    refetch?: any;
+    pagination: boolean;
 }
 
-const PostList = ({isLoading, isFetching, data, skip, returnSkip}: Props) => {
+const PostList = ({
+                      isLoading,
+                      isFetching,
+                      data,
+                      skip,
+                      returnSkip,
+                      refetch,
+                      pagination}: Props) => {
     const dispatch = useDispatch();
     const [posts, setPosts] = useState<any[]>([])
 
@@ -43,12 +52,12 @@ const PostList = ({isLoading, isFetching, data, skip, returnSkip}: Props) => {
         if (!isLoading && !isFetching) GetPosts(data, posts).then()
 
         document.addEventListener('scroll', (event: Event) => {
-            if (data?.length) scrollHandler(event, data, posts, skip).then()
+            if (data?.length && pagination) scrollHandler(event, data, posts, skip || 0).then()
         })
 
         return function () {
             document.removeEventListener('scroll', (event: Event) => {
-                if (data?.length) scrollHandler(event, data, posts, skip).then()
+                if (data?.length && pagination) scrollHandler(event, data, posts, skip || 0).then()
             })
         }
 
@@ -82,6 +91,7 @@ const PostList = ({isLoading, isFetching, data, skip, returnSkip}: Props) => {
                                                  text={post.text}
                                                  likes={post.postLikes}
                                                  createdAt={post.createdAt}
+                                                 refetch={refetch}
                                                  key={post.uuid}/>
                                 })
                             }
