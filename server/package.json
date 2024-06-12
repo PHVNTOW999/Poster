@@ -7,7 +7,9 @@
     "server": "nodemon ./bin/www",
     "prisma": "npx prisma studio",
     "client": "npm start --prefix ../client",
-    "dev": "concurrently \"npm run server\" \"npm run prisma\" \"npm run client\""
+    "clientDev": "npm run dev --prefix ../client",
+    "dev": "concurrently \"npm run server\" \"npm run prisma\" \"npm run client\"",
+    "prod": "concurrently \"npm run server\" \"npm run clientDev\""
   },
   "dependencies": {
     "@prisma/client": "^5.11.0",
