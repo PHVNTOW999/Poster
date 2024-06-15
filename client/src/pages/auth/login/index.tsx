@@ -1,28 +1,22 @@
 import {Button, Card, Form, Input, Row, Space, Spin, Typography} from "antd";
 import React, {useState} from "react";
 import {useLoginMutation, UserData} from "../../../app/services/auth";
-// import {ErrorHandler} from "../../../utils/ErrorHandler";
 import {Link, useNavigate} from "react-router-dom";
-// import {Error} from "../../../components/error";
+import {addError} from "../../../features/errors/errorSlicer";
+import {useDispatch} from "react-redux";
 
 export const Login = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState<boolean>(false);
     const [loginUser] = useLoginMutation();
-    const [error, setError] = useState('');
+    const dispatch = useDispatch();
     const login = async (data: UserData) => {
         try {
             setLoading(true)
             await loginUser(data).unwrap();
             navigate("/")
         } catch (error) {
-            // const maybeError = ErrorHandler(error);
-
-            // if (maybeError) {
-            //     setError(error.data.message);
-            // } else {
-            //     setError("Unknown error");
-            // }
+            dispatch(addError(error));
         } finally {
             setLoading(false)
         }
@@ -76,7 +70,6 @@ export const Login = () => {
                             <Typography.Text>
                                 Don't have an account? <Link to='/register'>Register</Link>
                             </Typography.Text>
-                            {/*<Error message={error}/>*/}
                         </Space>
                     </Spin>
                 </Card>

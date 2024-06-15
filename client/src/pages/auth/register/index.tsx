@@ -1,22 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Card, Form, Input, Row, Space, Spin, Typography} from "antd";
 import {Link, useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useLoginMutation, useRegisterMutation} from "../../../app/services/auth";
-import {selectUser} from "../../../features/auth/authSlice";
-// import {ErrorHandler} from "../../../utils/ErrorHandler";
-// import {Error} from "../../../components/error";
+import {addError} from "../../../features/errors/errorSlicer";
 // @ts-ignore
 import {User} from "@prisma/client";
 type RegisterData = Omit<User, "uuid"> & {confirmPassword: string}
 
 const Register = () => {
     const navigate = useNavigate();
-    const user = useSelector(selectUser);
-    const [error, setError] = useState('');
     const [registerUser] = useRegisterMutation();
     const [loginUser] = useLoginMutation();
     const [loading, setLoading] = React.useState<boolean>(false);
+    const dispatch = useDispatch();
 
     const register = async (data: RegisterData) => {
         try {
@@ -25,13 +22,7 @@ const Register = () => {
             await loginUser(data)
             navigate("/");
         } catch (error) {
-            // const maybeError = ErrorHandler(error);
-            //
-            // if (maybeError) {
-            //     setError(error.data.message);
-            // } else {
-            //     setError("Unknown error");
-            // }
+            dispatch(addError(error));
         } finally {
             setLoading(false)
         }
@@ -120,7 +111,6 @@ const Register = () => {
                             <Typography.Text>
                                 Are you have an account? <Link to='/login'>Login</Link>
                             </Typography.Text>
-                            {/*<Error message={error}/>*/}
                         </Space>
                     </Spin>
                 </Card>
